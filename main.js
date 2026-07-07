@@ -3,282 +3,176 @@ const OWNER = 'rua-macau';
 const REPO  = 'Macau-road-s';
 const BRANCH = 'main';
 const CDN   = `https://cdn.jsdelivr.net/gh/${OWNER}/${REPO}@${BRANCH}`;
-const CLIENT_ID = 'Iv23li0TZffQfNE8JQ53';
 
-/* ========= 全局状态 ========= */
-let accessToken = '';
-let currentUser = null;
+/* ========= 全局狀態 ========= */
+let photos = [];
+let currentIndex = 0;
+let proxyUrl = localStorage.getItem('proxy_url') || '';
 
 /* ========= 初始化 ========= */
 document.addEventListener('DOMContentLoaded', () => {
-  restoreTokenFromURL();
-  checkAuth();
+  // 恢复代理
+  if (proxyUrl) {
+    document.getElementById('proxy-input').value = proxyUrl;
+    document.getElementById('proxy-status').textContent = '已配置代理';
+    document.getElementById('proxy-status').style.color = '#4CAF50';
+  }
+
   loadPhotos();
-  loadComments();
-  bindEvents();
+
+  // 初始化 Utterances
+  initUtterances();
+
+  // 绑定事件
+  document.getElementById('prev-btn').addEventListener('click', () => {
+    if (currentIndex > 0) { currentIndex--; renderPhoto(); updateNav(); }
+  });
+  document.getElementById('next-btn').addEventListener('click', () => {
+    if (currentIndex < photos.length - 1) { currentIndex++; renderPhoto(); updateNav(); }
+  });
+  document.getElementById('proxy-save').addEventListener('click', saveProxy);
 });
 
-/* ========= 从 URL 恢复 Token（关键修复） ========= */
-function restoreTokenFromURL() {
-  if (location.hash.startsWith('#access_token=')) {
-    const params = new URLSearchParams(location.hash.slice(1));
-    const token = params.get('access_token');
-    if (token) {
-      localStorage.setItem('gh_token', token);
-      // 清掉 hash，避免刷新重复触发
-      history.replaceState(null, '', location.pathname);
-      location.reload(); // 关键：重新初始化
-    }
-  } else {
-    accessToken = localStorage.getItem('gh_token') || '';
+/* ========= 代理配置 ========= */
+function saveProxy() {
+  const input = document.getElementById('proxy-input').value.trim();
+  const status = document.getElementById('proxy-status');
+
+  if (!input) {
+    localStorage.removeItem('proxy_url');
+    proxyUrl = '';
+    status.textContent = '已清除代理';
+    status.style.color = '#999';
+    return;
   }
-}
 
-/* ========= 鉴权 ========= */
-async function checkAuth() {
-  accessToken = localStorage.getItem('gh_token') || '';
-  if (!accessToken) return showLoggedOut();
-
-  try {
-    const res = await fetch('https://api.github.com/user', {
-      headers: { Authorization: `token ${accessToken}` }
-    });
-    if (!res.ok) throw new Error();
-    currentUser = await res.json();
-    showLoggedIn(currentUser);
-  } catch {
-    logout();
+  // 验证 URL 格式
+  try { new URL(input); }
+  catch {
+    status.textContent = '格式錯誤，請輸入有效 URL';
+    status.style.color = '#f44336';
+    return;
   }
+
+  localStorage.setItem('proxy_url', input);
+  proxyUrl = input;
+  status.textContent = '保存成功';
+  status.style.color = '#4CAF50';
+
+  // 重新加载
+  loadPhotos();
 }
 
-function showLoggedIn(user) {
-  document.getElementById('login-btn').style.display = 'none';
-  document.getElementById('user-info').style.display = 'flex';
-  document.getElementById('user-avatar').src = user.avatar_url;
-  document.getElementById('user-name').textContent = user.login;
-  document.getElementById('upload-form').style.display = 'block';
-  document.getElementById('upload-login-hint').style.display = 'none';
-  document.getElementById('comment-form').style.display = 'block';
-  document.getElementById('comment-login-hint').style.display = 'none';
-}
-
-function showLoggedOut() {
-  document.getElementById('login-btn').style.display = 'inline-block';
-  document.getElementById('user-info').style.display = 'none';
-  document.getElementById('upload-form').style.display = 'none';
-  document.getElementById('upload-login-hint').style.display = 'block';
-  document.getElementById('comment-form').style.display = 'none';
-  document.getElementById('comment-login-hint').style.display = 'block';
-}
-
-function logout() {
-  localStorage.removeItem('gh_token');
-  location.reload();
-}
-
-/* ========= 登录 ========= */
-function bindEvents() {
-  document.getElementById('login-btn').onclick = () => {
-    const redirect = encodeURIComponent(location.origin);
-    location.href =
-      `https://github.com/login/oauth/authorize` +
-      `?client_id=${CLIENT_ID}` +
-      `&redirect_uri=${redirect}` +
-      `&scope=public_repo`;
-  };
-
-  document.getElementById('logout-btn').onclick = logout;
-}
-
-/* ========= 照片浏览 ========= */
-let photos = [];
-let currentIndex = 0;
-
+/* ========= 照片加載 ========= */
 async function loadPhotos() {
+  const bar  = document.getElementById('progress-bar');
+  const fill = document.getElementById('progress-fill');
+  const container = document.getElementById('photo-container');
+
+  container.innerHTML = '<p class="status">載入照片列表中...</p>';
+  bar.style.display = 'block';
+  fill.style.width = '10%';
+
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${OWNER}/${REPO}/contents/`
-    );
+    // 构建 API URL（支持代理）
+    let apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
+    if (proxyUrl) {
+      apiUrl = proxyUrl.replace(/\/$/, '') + '/' + apiUrl;
+    }
+
+    fill.style.width = '30%';
+
+    const res = await fetch(apiUrl);
+    if (!res.ok) throw new Error(`API 錯誤：${res.status}`);
+
+    fill.style.width = '60%';
+
     const files = await res.json();
+
+    fill.style.width = '80%';
+
     photos = files
       .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name))
       .sort((a, b) => a.name.localeCompare(b.name));
 
-    if (!photos.length) {
-      document.getElementById('photo-container').innerHTML =
-        '<p class="status">暫無照片</p>';
+    fill.style.width = '100%';
+
+    if (photos.length === 0) {
+      container.innerHTML = '<p class="status">暫無照片</p>';
       return;
     }
+
     currentIndex = 0;
     renderPhoto();
     updateNav();
-  } catch {
-    document.getElementById('photo-container').innerHTML =
-      '<p class="status">載入失敗</p>';
+  } catch (err) {
+    container.innerHTML = `<p class="status">載入失敗：${err.message}</p>`;
+    console.error(err);
+  } finally {
+    setTimeout(() => { bar.style.display = 'none'; }, 500);
   }
 }
 
+/* ========= 渲染照片（含真實進度條） ========= */
 function renderPhoto() {
   const p = photos[currentIndex];
-  document.getElementById('photo-container').innerHTML = `
-    <img src="${CDN}/${encodeURIComponent(p.name)}" alt="${p.name}" loading="lazy" />`;
-  document.getElementById('photo-info').textContent =
-    `${currentIndex + 1} / ${photos.length} — ${p.name}`;
+  const container = document.getElementById('photo-container');
+  const info = document.getElementById('photo-info');
+  const bar  = document.getElementById('progress-bar');
+  const fill = document.getElementById('progress-fill');
+
+  container.innerHTML = '';
+  bar.style.display = 'block';
+  fill.style.width = '0%';
+
+  const img = new Image();
+
+  img.onload = () => {
+    fill.style.width = '100%';
+    container.appendChild(img);
+    setTimeout(() => { bar.style.display = 'none'; }, 300);
+  };
+
+  img.onerror = () => {
+    fill.style.width = '0%';
+    container.innerHTML = '<p class="status">圖片載入失敗</p>';
+    bar.style.display = 'none';
+  };
+
+  // 真实进度（部分浏览器支持）
+  img.addEventListener('progress', (e) => {
+    if (e.lengthComputable) {
+      const pct = Math.round((e.loaded / e.total) * 100);
+      fill.style.width = `${pct}%`;
+    }
+  });
+
+  img.src = `${CDN}/${encodeURIComponent(p.name)}`;
+  img.alt = `澳門街道照片 — ${p.name}`;
+  img.loading = 'eager';
+
+  info.textContent = `${currentIndex + 1} / ${photos.length} — ${p.name}`;
 }
 
+/* ========= 導航狀態 ========= */
 function updateNav() {
   document.getElementById('prev-btn').disabled = currentIndex <= 0;
-  document.getElementById('next-btn').disabled =
-    currentIndex >= photos.length - 1;
+  document.getElementById('next-btn').disabled = currentIndex >= photos.length - 1;
+  document.getElementById('photo-counter').textContent =
+    `${currentIndex + 1} / ${photos.length}`;
 }
 
-/* ========= 上传（OAuth Token PR） ========= */
-document.getElementById('upload-btn')?.addEventListener('click', async () => {
-  if (!accessToken) return alert('請先登入');
+/* ========= Utterances 評論區 ========= */
+function initUtterances() {
+  const container = document.getElementById('utterances-container');
 
-  const file = document.getElementById('file-input').files[0];
-  const location = document.getElementById('photo-location').value.trim();
-  const date = document.getElementById('photo-date').value;
-  const desc = document.getElementById('photo-desc').value.trim();
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', `${OWNER}/${REPO}`);
+  script.setAttribute('issue-term', 'pathname');
+  script.setAttribute('theme', 'github-light');
+  script.setAttribute('crossorigin', 'anonymous');
+  script.async = true;
 
-  if (!file || !location) return alert('請填寫必要資訊');
-
-  const reader = new FileReader();
-  reader.onload = async e => {
-    const base64 = e.target.result.split(',')[1];
-    const branch = `upload-${Date.now()}`;
-
-    try {
-      const headers = {
-        Authorization: `token ${accessToken}`,
-        'Content-Type': 'application/json'
-      };
-
-      const main = await fetch(
-        `https://api.github.com/repos/${OWNER}/${REPO}/git/refs/heads/main`,
-        { headers }
-      ).then(r => r.json());
-
-      await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/refs`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: main.object.sha })
-      });
-
-      await fetch(
-        `https://api.github.com/repos/${OWNER}/${REPO}/contents/${file.name}`,
-        {
-          method: 'PUT',
-          headers,
-          body: JSON.stringify({
-            message: `上傳照片：${location}`,
-            content: base64,
-            branch,
-            committer: {
-              name: currentUser.login,
-              email: currentUser.email || `${currentUser.login}@users.noreply.github.com`
-            }
-          })
-        }
-      );
-
-      await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/pulls`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          title: `📷 新照片：${location}`,
-          head: branch,
-          base: 'main',
-          body: `地點：${location}\n日期：${date}\n\n${desc}`
-        })
-      });
-
-      alert('✅ 已提交 Pull Request，審核後發佈');
-      loadPhotos();
-    } catch (err) {
-      alert('❌ 上傳失敗');
-      console.error(err);
-    }
-  };
-  reader.readAsDataURL(file);
-});
-
-/* ========= 评论（Issues） ========= */
-const ISSUE_TITLE = '街道照片評論區';
-
-async function getOrCreateIssue() {
-  const headers = accessToken
-    ? { Authorization: `token ${accessToken}` }
-    : {};
-
-  const issues = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/issues?labels=comments`,
-    { headers }
-  ).then(r => r.json());
-
-  if (issues.length) return issues[0].number;
-
-  const res = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/issues`,
-    {
-      method: 'POST',
-      headers: {
-        ...headers,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: ISSUE_TITLE,
-        body: '歡迎留下評論 💬',
-        labels: ['comments']
-      })
-    }
-  );
-  return (await res.json()).number;
-}
-
-async function loadComments() {
-  try {
-    const issue = await getOrCreateIssue();
-    const comments = await fetch(
-      `https://api.github.com/repos/${OWNER}/${REPO}/issues/${issue}/comments`
-    ).then(r => r.json());
-
-    document.getElementById('comments-list').innerHTML = comments.length
-      ? comments.map(c => `
-          <div class="comment">
-            <strong>${c.user.login}</strong>
-            <span class="date">${new Date(c.created_at).toLocaleString('zh-MO')}</span>
-            <div>${escapeHtml(c.body)}</div>
-          </div>`).join('')
-      : '<p class="status">暫無評論</p>';
-  } catch {
-    document.getElementById('comments-list').innerHTML =
-      '<p class="status">載入失敗</p>';
-  }
-}
-
-document.getElementById('comment-btn')?.addEventListener('click', async () => {
-  if (!accessToken) return alert('請先登入');
-  const body = document.getElementById('comment-input').value.trim();
-  if (!body) return;
-  const issue = await getOrCreateIssue();
-  await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/issues/${issue}/comments`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `token ${accessToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ body })
-    }
-  );
-  document.getElementById('comment-input').value = '';
-  loadComments();
-});
-
-function escapeHtml(text) {
-  const d = document.createElement('div');
-  d.textContent = text;
-  return d.innerHTML;
+  container.appendChild(script);
 }
