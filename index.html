@@ -5,60 +5,51 @@
   <title>澳門街道照片計劃</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="記錄澳門街道的當下與變遷" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
 
-  <!-- 頂部導航 -->
   <header>
     <h1>澳門街道照片計劃</h1>
     <p>Rua Macau · Street Photography Archive</p>
-    <div id="auth-area">
-      <button id="login-btn">使用 GitHub 登入</button>
-      <span id="user-info" style="display:none;">
-        <img id="user-avatar" />
-        <span id="user-name"></span>
-        <button id="logout-btn">登出</button>
-      </span>
-    </div>
   </header>
 
   <main>
+    <!-- 控制面板 -->
+    <section class="controls">
+      <div class="proxy-control">
+        <label for="proxy-input">代理地址（可选）：</label>
+        <input
+          type="text"
+          id="proxy-input"
+          placeholder="https://your-proxy.com/"
+          autocomplete="off"
+        />
+        <button id="proxy-save">保存</button>
+        <span id="proxy-status"></span>
+      </div>
+      <div class="nav">
+        <button id="prev-btn" disabled>← 上一張</button>
+        <span id="photo-counter"></span>
+        <button id="next-btn" disabled>下一張 →</button>
+      </div>
+    </section>
+
     <!-- 照片瀏覽區 -->
     <section class="viewer" id="viewer">
       <div id="photo-container">
         <p class="status">載入中...</p>
       </div>
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
       <div class="photo-info" id="photo-info"></div>
-      <div class="nav">
-        <button id="prev-btn" disabled>← 上一張</button>
-        <button id="next-btn" disabled>下一張 →</button>
-      </div>
     </section>
 
-    <!-- 上傳區 -->
-    <section class="upload-section" id="upload-section">
-      <h2>📷 上傳街道照片</h2>
-      <p class="hint">登入後可上傳照片，將以 Pull Request 形式提交，經審核後發布</p>
-      <div id="upload-form" style="display:none;">
-        <input type="file" id="file-input" accept="image/*" />
-        <input type="text" id="photo-location" placeholder="拍攝地點（如：南灣湖景大馬路）" />
-        <input type="date" id="photo-date" />
-        <textarea id="photo-desc" placeholder="照片描述或故事..."></textarea>
-        <button id="upload-btn">提交照片</button>
-      </div>
-      <p id="upload-login-hint">請先登入以上傳照片</p>
-    </section>
-
-    <!-- 評論區 -->
-    <section class="comments-section" id="comments-section">
+    <!-- 評論區（Utterances） -->
+    <section class="comments-section">
       <h2>💬 評論</h2>
-      <div id="comments-list"><p class="status">載入中...</p></div>
-      <div class="comment-form" id="comment-form" style="display:none;">
-        <textarea id="comment-input" placeholder="留下你的評論..."></textarea>
-        <button id="comment-btn">發佈評論</button>
-      </div>
-      <p id="comment-login-hint">請先登入以發佈評論</p>
+      <div id="utterances-container"></div>
     </section>
   </main>
 
@@ -66,7 +57,6 @@
     <p>© rua-macau · 澳門街道照片檔案 · 嚴禁盜用</p>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="/assets/js/main.js"></script>
 </body>
 </html>
-
