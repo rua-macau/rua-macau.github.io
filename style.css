@@ -2,41 +2,46 @@
 
 body {
   font-family: system-ui, -apple-system, "PingFang SC", sans-serif;
-  max-width: 900px; margin:0 auto; padding:20px;
+  max-width: 960px; margin:0 auto; padding:20px;
   line-height:1.6; color:#333; background:#fafafa;
 }
 
 /* 頂部 */
 header {
   text-align:center; padding:30px 0;
-  border-bottom:2px solid #eee; margin-bottom:30px;
-  position:relative;
+  border-bottom:2px solid #eee; margin-bottom:24px;
 }
-header h1 { font-size:2em; }
-header p { color:#666; margin-top:6px; }
-#auth-area {
-  position:absolute; right:0; top:50%; transform:translateY(-50%);
-  display:flex; align-items:center; gap:10px;
-}
-#auth-area button {
-  padding:8px 16px; border:none; border-radius:6px;
-  cursor:pointer; font-size:13px; transition: opacity .2s;
-}
-#login-btn { background:#333; color:#fff; }
-#login-btn:hover { opacity:.85; }
-#logout-btn { background:#eee; color:#666; }
-#user-info { display:flex; align-items:center; gap:8px; }
-#user-avatar { width:28px; height:28px; border-radius:50%; }
+header h1 { font-size:2.2em; letter-spacing:1px; }
+header p { color:#666; margin-top:6px; font-size:15px; }
 
-/* 照片瀏覽 */
-.viewer { text-align:center; margin-bottom:40px; }
-#photo-container img {
-  max-width:100%; max-height:70vh;
-  object-fit:contain; border-radius:8px;
-  background:#f0f0f0;
+/* 控制面板 */
+.controls {
+  background:#fff; border:1px solid #eee; border-radius:10px;
+  padding:20px; margin-bottom:24px;
 }
-.photo-info { margin-top:10px; color:#666; font-size:13px; }
-.nav { display:flex; justify-content:center; gap:16px; margin-top:16px; }
+
+.proxy-control {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:16px; flex-wrap:wrap;
+}
+.proxy-control label {
+  font-size:14px; color:#555; white-space:nowrap;
+}
+.proxy-control input {
+  flex:1; min-width:200px; padding:8px 12px;
+  border:1px solid #ccc; border-radius:6px; font-size:13px;
+}
+.proxy-control button {
+  padding:8px 18px; background:#333; color:#fff;
+  border:none; border-radius:6px; cursor:pointer; font-size:13px;
+  transition: opacity .2s;
+}
+.proxy-control button:hover { opacity:.85; }
+#proxy-status { font-size:12px; color:#999; }
+
+.nav {
+  display:flex; justify-content:center; align-items:center; gap:16px;
+}
 .nav button {
   padding:10px 28px; font-size:15px; cursor:pointer;
   border:1px solid #ccc; background:#fff; border-radius:6px;
@@ -44,53 +49,31 @@ header p { color:#666; margin-top:6px; }
 }
 .nav button:hover:not(:disabled) { background:#333; color:#fff; border-color:#333; }
 .nav button:disabled { opacity:.35; cursor:not-allowed; }
+#photo-counter { font-size:14px; color:#666; }
 
-/* 上傳區 */
-.upload-section {
-  background:#fff; border:1px solid #eee; border-radius:10px;
-  padding:24px; margin-bottom:40px;
+/* 照片瀏覽 */
+.viewer { text-align:center; margin-bottom:40px; }
+#photo-container img {
+  max-width:100%; max-height:75vh;
+  object-fit:contain; border-radius:8px;
+  background:#f0f0f0;
 }
-.upload-section h2 { margin-bottom:10px; }
-.hint { font-size:12px; color:#999; margin-bottom:14px; }
-#upload-form input[type="text"],
-#upload-form input[type="date"],
-#upload-form textarea,
-#upload-form button {
-  display:block; width:100%; margin-bottom:10px;
-  padding:10px; font-size:14px;
-  border:1px solid #ccc; border-radius:6px;
+
+/* 進度條 */
+.progress-bar {
+  width:100%; max-width:600px; margin:12px auto 8px;
+  height:6px; background:#eee; border-radius:3px;
+  overflow:hidden; display:none;
 }
-#upload-form textarea { resize:vertical; min-height:80px; }
-#upload-btn {
-  background:#333; color:#fff; border:none; cursor:pointer;
-  font-weight:bold; transition: opacity .2s;
+.progress-fill {
+  height:100%; width:0%; background:#333;
+  transition: width .1s linear;
 }
-#upload-btn:hover { opacity:.85; }
-#upload-login-hint { color:#999; font-size:13px; }
+.photo-info { color:#666; font-size:13px; }
 
 /* 評論區 */
 .comments-section { margin-bottom:40px; }
 .comments-section h2 { margin-bottom:12px; }
-.comment {
-  border:1px solid #eee; border-radius:8px; padding:14px;
-  margin-bottom:10px; background:#fff;
-}
-.comment .author { font-weight:bold; color:#333; }
-.comment .date { font-size:12px; color:#999; margin-left:8px; }
-.comment .body { margin-top:6px; white-space:pre-line; }
-.comment-form { margin-top:16px; }
-.comment-form textarea {
-  display:block; width:100%; min-height:80px; padding:10px;
-  border:1px solid #ccc; border-radius:6px; font-size:14px;
-  resize:vertical; margin-bottom:10px;
-}
-#comment-btn {
-  padding:10px 24px; background:#333; color:#fff;
-  border:none; border-radius:6px; cursor:pointer; font-weight:bold;
-  transition: opacity .2s;
-}
-#comment-btn:hover { opacity:.85; }
-#comment-login-hint { color:#999; font-size:13px; }
 
 /* 狀態文字 */
 .status { color:#999; font-size:14px; }
@@ -99,4 +82,3 @@ footer {
   text-align:center; margin-top:60px; padding-top:20px;
   border-top:1px solid #eee; color:#999; font-size:13px;
 }
-
