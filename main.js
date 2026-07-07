@@ -5,7 +5,7 @@ const BRANCH = 'main';
 const CDN    = `https://cdn.jsdelivr.net/gh/${OWNER}/${REPO}@${BRANCH}`;
 
 // GitHub App Client ID（去 GitHub App 設定頁取得）
-const CLIENT_ID = 'YOUR_GITHUB_APP_CLIENT_ID';
+const CLIENT_ID = 'Iv23li0TZffQfNE8JQ53';
 
 // ===== 全域狀態 =====
 let photos = [];
