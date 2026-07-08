@@ -1,0 +1,202 @@
+/* =========================================================
+   ai.css · AI 圖片識別專用樣式
+   ========================================================= */
+
+/* ---------- 基礎重置 ---------- */
+body {
+  font-family: system-ui, -apple-system, "PingFang SC", sans-serif;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6;
+  color: #333;
+  background: #fafafa;
+}
+
+header {
+  text-align: center;
+  padding: 30px 0;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 24px;
+}
+header h1 {
+  font-size: 2em;
+  letter-spacing: 1px;
+}
+header p {
+  color: #666;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* ---------- 區塊通用 ---------- */
+section {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+/* ---------- AI 配置 ---------- */
+.ai-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ai-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ai-row label {
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+  min-width: 80px;
+}
+.ai-row input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: "Courier New", monospace;
+}
+.ai-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.ai-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+#ai-save     { background: #4CAF50; color: #fff; }
+#ai-clear    { background: #f44336; color: #fff; }
+#ai-test     { background: #333; color: #fff; }
+.ai-actions button:hover { opacity: 0.85; }
+
+/* ---------- 圖片選擇 ---------- */
+.img-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.img-nav button {
+  padding: 8px 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.img-nav button:hover { background: #f5f5f5; }
+#img-index {
+  font-size: 14px;
+  color: #666;
+  min-width: 60px;
+  text-align: center;
+}
+.img-url-row {
+  margin-bottom: 12px;
+}
+.img-url-row input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: "Courier New", monospace;
+  background: #fafafa;
+}
+#ai-recognize {
+  padding: 10px 24px;
+  background: #2196F3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+#ai-recognize:hover { opacity: 0.85; }
+
+/* ---------- 聊天區 ---------- */
+.chat-section textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+.chat-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.chat-actions button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+#chat-send { background: #333; color: #fff; }
+#chat-clear { background: #e0e0e0; color: #333; }
+.chat-actions button:hover { opacity: 0.85; }
+
+#chat-output {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.8;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ---------- 狀態文字 ---------- */
+.status {
+  font-size: 13px;
+  margin-top: 6px;
+}
+.status:empty { display: none; }
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  color: #999;
+  font-size: 13px;
+}
+footer a {
+  color: #666;
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
