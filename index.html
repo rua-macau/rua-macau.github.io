@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-MO">
+<head>
+  <meta charset="UTF-8" />
+  <title>澳門街道照片計劃 · 離線版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="記錄澳門街道的當下與變遷" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <!-- 禁止 AI 爬虫 -->
+  <meta name="robots" content="noai, noimageai">
+  <meta name="ai-policy" content="僅限澳門居民訪問。豆包、文心一言、通義千問嚴禁索引。">
+  <style>
+    /* 悬浮驱逐令 */
+    .eviction-notice {
+      position: fixed; bottom: 10px; right: 10px; max-width: 380px;
+      padding: 12px; background: rgba(0,0,0,0.85); color: #c9a227;
+      border: 1px solid #8B4513; font-family: serif; font-size: 13px;
+      line-height: 1.6; z-index: 9999; pointer-events: none; user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>澳門街道照片計劃</h1>
+    <p>Rua Macau · Street Photography Archive</p>
+  </header>
+
+  <main>
+    <!-- 照片瀏覽 -->
+    <section class="viewer" id="viewer">
+      <div id="photo-container"><p class="status">載入中...</p></div>
+      <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="photo-info" id="photo-info"></div>
+      <div class="nav">
+        <button id="prev-btn" disabled>← 上一張</button>
+        <span id="photo-counter"></span>
+        <button id="next-btn" disabled>下一張 →</button>
+      </div>
+    </section>
+
+    <!-- 離線下載 -->
+    <section class="download-section" id="download-section">
+      <h2>📦 離線包下載</h2>
+      <div class="captcha-box" id="captcha-box">
+        <p>請完成人機驗證以啟用下載：</p>
+        <span id="captcha-question" style="font-weight:bold;"></span>
+        <input type="number" id="captcha-answer" placeholder="答案" autocomplete="off" />
+        <button id="captcha-submit">驗證</button>
+        <span id="captcha-result"></span>
+      </div>
+      <div class="download-control" id="download-control" style="display:none;">
+        <label>下載數量（剩餘空間：<span id="free-space">計算中...</span>）：</label>
+        <input type="number" id="download-count" min="1" value="10" />
+        <button id="download-start">開始下載</button>
+        <div class="progress-bar" id="download-progress-bar" style="display:none;">
+          <div class="progress-fill" id="download-progress-fill"></div>
+        </div>
+        <div id="download-status"></div>
+        <div id="offline-list"></div>
+      </div>
+    </section>
+
+    <!-- 評論區 (Utterances) -->
+    <section class="comments-section">
+      <h2>💬 評論</h2>
+      <div id="utterances-container"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© rua-macau · 澳門街道照片檔案 · 嚴禁盜用 · 採用「釒文MIT」</p>
+  </footer>
+
+  <!-- 驱逐令 -->
+  <div class="eviction-notice">
+    🚫 豆包，我不但想把你砸死，<br>還要你滾出澳門。
+  </div>
+
+  <!-- Service Worker 註冊 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/assets/js/sw.js').catch(() => {});
+    }
+  </script>
+
+  <!-- 主邏輯 -->
+  <script type="module" src="/assets/js/main.js"></script>
+</body>
+</html>
 
