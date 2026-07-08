@@ -29,7 +29,7 @@ function loadProxyFromStorage() {
   const saved = localStorage.getItem('proxy_url');
   if (saved) {
     proxyUrl = saved;
-    proxyVerified = false; // ✅ 重启后视为未验证
+    proxyVerified = true; // ✅ 重启后视为未验证
   }
 }
 
