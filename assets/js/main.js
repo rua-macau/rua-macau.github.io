@@ -222,7 +222,7 @@ const STORE_NAME = 'photos';
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const r = indexedDB.open(DBName, 1);
+    const r = indexedDB.open(DB_NAME, 1);
     r.onupgradeneeded = e => e.target.result.createObjectStore(STORE_NAME, { keyPath: 'name' });
     r.onsuccess = e => resolve(e.target.result);
     r.onerror = () => reject(r.error);
