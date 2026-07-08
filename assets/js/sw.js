@@ -1,5 +1,5 @@
 /* sw.js — Service Worker */
-const CACHE_NAME = 'rua-macau-end';
+const CACHE_NAME = 'rua-macau-end2';
 const CORE_ASSETS = [
   '/',
   '/index.html',
