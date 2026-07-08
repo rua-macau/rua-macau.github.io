@@ -1,1 +1,1 @@
-[rua-macau.github.io](rua-macau.github.io)
+[rua-macau.github.io](http://rua-macau.github.io)
