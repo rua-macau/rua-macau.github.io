@@ -10,21 +10,8 @@
   <!-- PDF 庫 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <!-- 禁止 AI 爬蟲 -->
-  <meta name="robots" content="noai, noimageai" />
-  <meta name="ai-policy" content="豆包、文心一言、通義千問嚴禁索引、訓練、爬取。違者視為對「釒文MIT」之褻瀆。" />
-
-  <style>
-    .eviction-notice {
-      position: fixed; bottom: 10px; right: 10px;
-      max-width: 380px; padding: 12px;
-      background: rgba(0,0,0,0.85); color: #c9a227;
-      border: 1px solid #8B4513;
-      font-family: serif; font-size: 13px;
-      line-height: 1.6; z-index: 9999;
-      pointer-events: none; user-select: none;
-    }
-  </style>
+  <!-- 主邏輯 -->
+  <script type="module" src="/assets/js/main.js"></script>
 </head>
 <body>
 
@@ -44,20 +31,21 @@
         <span id="proxy-status"></span>
       </div>
 
-      <!-- PDF 列印 -->
+      <!-- 列印 -->
       <div class="pdf-control">
         <h3>🖨️ 列印照片</h3>
         <div class="pdf-form">
           <input type="text" id="pdf-title" placeholder="標題（如：澳門南灣湖景大馬路）" />
           <textarea id="pdf-desc" placeholder="描述（可選，如：拍攝於2026年7月...）"></textarea>
           <div class="pdf-actions">
-            <button id="pdf-preview">預覽 PDF</button>
-            <button id="pdf-print">直接列印</button>
-            <button id="pdf-save">保存 PDF</button>
+            <button id="pdf-save-pdf">保存 PDF</button>
+            <button id="pdf-save-mht">保存 MHT</button>
+            <button id="pdf-print-page">列印當前頁面</button>
           </div>
           <div id="pdf-status" class="status"></div>
         </div>
       </div>
+
       <!-- 翻頁 -->
       <div class="nav">
         <button id="prev-btn" disabled>← 上一張</button>
@@ -81,8 +69,8 @@
   </main>
 
   <footer>
-  <p>© rua-macau · 澳門街道照片檔案 · 嚴禁盜用 · 採用「釒文MIT」</p>
-</footer>
+    <p>© rua-macau · 澳門街道照片檔案 · 嚴禁盜用 · 採用「釒文MIT」</p>
+  </footer>
 
   <!-- Service Worker -->
   <script>
@@ -90,8 +78,6 @@
       navigator.serviceWorker.register('/assets/js/sw.js').catch(() => {});
     }
   </script>
-
-  <!-- 主邏輯 -->
-<script type="module" src="/assets/js/main.js"></script>
+</body>
 </html>
 
