@@ -195,11 +195,13 @@ async function generatePDF(mode) {
     pdf.setTextColor(51, 51, 51);
     pdf.text(title, w / 2, 20, { align: 'center' });
 
-    const imgW = w - 40;
-    const imgH = imgW * (img.height / img.width);
-    const x = 20;
-    const y = 30;
-    pdf.addImage(img, 'JPEG', x, y, imgW, Math.min(imgH, h - 80));
+// 正方形：边长 = 页面宽度 - 左右边距
+const size = w - 40;          // 正方形边长
+const x = 20;                 // 左边距
+const y = (h - size) / 2;    // 垂直居中
+
+pdf.addImage(img, 'JPEG', x, y, size, size);
+
 
     if (desc) {
       pdf.setFont('helvetica', 'normal');
