@@ -11,7 +11,7 @@ let photos = [];
 let currentIndex = 0;
 let cachedPhotos = new Set();
 let proxyUrl = '';              // ✅ 默认空
-let proxyVerified = true;      // ✅ 是否已验证
+let proxyVerified = false;      // ✅ 是否已验证
 
 document.addEventListener('DOMContentLoaded', async () => {
   loadProxyFromStorage();
