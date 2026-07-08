@@ -2,7 +2,7 @@
 <html lang="zh-MO">
 <head>
   <meta charset="UTF-8" />
-  <title>AI 圖片識別 · 澳門街道</title>
+  <title>AI 圖片識別</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/ai.css" />
 </head>
@@ -14,7 +14,7 @@
 </header>
 
 <main>
-  <!-- ===== AI 配置 ===== -->
+  <!-- AI 配置 -->
   <section class="ai-control">
     <h3>🤖 AI 配置</h3>
     <div class="ai-form">
@@ -36,32 +36,42 @@
         <button id="ai-test">測試連通</button>
       </div>
       <div id="ai-status" class="status"></div>
+      <div class="progress-bar" id="test-progress" style="display:none;">
+        <div class="progress-fill" id="test-progress-fill"></div>
+      </div>
     </div>
   </section>
 
-  <!-- ===== 圖片選擇 ===== -->
-  <section class="image-select">
-    <h3>📷 圖片選擇</h3>
-    <div class="img-nav">
-      <button id="img-prev">← 上一張</button>
-      <span id="img-index">0 / 0</span>
-      <button id="img-next">下一張 →</button>
-    </div>
-    <div class="img-url-row">
-      <label>圖片 URL：</label>
-      <input type="url" id="ai-image-url" readonly style="width:80%" />
+  <!-- 圖片輸入 -->
+  <section class="image-input">
+    <h3>📷 圖片輸入</h3>
+    <div class="input-methods">
+      <div class="method">
+        <label>圖片 URL：</label>
+        <input type="url" id="ai-image-url" placeholder="https://example.com/photo.jpg" style="width:80%" />
+      </div>
+      <div class="method">
+        <label>或上傳圖片：</label>
+        <input type="file" id="ai-file-upload" accept="image/*" />
+      </div>
     </div>
     <button id="ai-recognize">識別圖片</button>
+    <div class="progress-bar" id="recog-progress" style="display:none;">
+      <div class="progress-fill" id="recog-progress-fill"></div>
+    </div>
     <div id="ai-result" class="status" style="white-space:pre-line"></div>
   </section>
 
-  <!-- ===== 聊天 ===== -->
+  <!-- 聊天 -->
   <section class="chat-section">
     <h3>💬 聊天測試</h3>
     <textarea id="chat-input" placeholder="輸入消息..."></textarea>
     <div class="chat-actions">
       <button id="chat-send">發送</button>
       <button id="chat-clear">清除話題</button>
+    </div>
+    <div class="progress-bar" id="chat-progress" style="display:none;">
+      <div class="progress-fill" id="chat-progress-fill"></div>
     </div>
     <div id="chat-output" class="status" style="white-space:pre-line"></div>
   </section>
