@@ -6,23 +6,63 @@ body {
   line-height:1.6; color:#333; background:#fafafa;
 }
 
-header { text-align:center; padding:30px 0; border-bottom:2px solid #eee; margin-bottom:24px; }
+header {
+  text-align:center; padding:30px 0;
+  border-bottom:2px solid #eee; margin-bottom:24px;
+}
 header h1 { font-size:2.2em; letter-spacing:1px; }
 header p { color:#666; margin-top:6px; font-size:15px; }
 
-/* 照片瀏覽 */
-.viewer { text-align:center; margin-bottom:40px; }
-#photo-container img {
-  max-width:100%; max-height:75vh;
-  object-fit:contain; border-radius:8px; background:#f0f0f0;
+/* 控制面板 */
+.controls {
+  background:#fff; border:1px solid #eee; border-radius:10px;
+  padding:20px; margin-bottom:24px;
 }
-.progress-bar {
-  width:100%; max-width:600px; margin:12px auto 8px;
-  height:6px; background:#eee; border-radius:3px; overflow:hidden;
+
+/* Proxy */
+.proxy-control {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:20px; flex-wrap:wrap;
 }
-.progress-fill { height:100%; width:0%; background:#333; transition: width .1s linear; }
-.photo-info { color:#666; font-size:13px; }
-.nav { display:flex; justify-content:center; align-items:center; gap:16px; margin-top:16px; }
+.proxy-control label { font-size:14px; color:#555; white-space:nowrap; }
+.proxy-control input {
+  flex:1; min-width:200px; padding:8px 12px;
+  border:1px solid #ccc; border-radius:6px; font-size:13px;
+}
+.proxy-control button {
+  padding:8px 18px; background:#333; color:#fff;
+  border:none; border-radius:6px; cursor:pointer; font-size:13px;
+  transition: opacity .2s;
+}
+.proxy-control button:hover { opacity:.85; }
+#proxy-status { font-size:12px; }
+
+/* PDF */
+.pdf-control { margin-bottom:20px; }
+.pdf-control h3 { margin-bottom:12px; font-size:1.1em; }
+.pdf-form { display:flex; flex-direction:column; gap:10px; }
+.pdf-form input,
+.pdf-form textarea {
+  padding:10px 12px; border:1px solid #ccc; border-radius:6px;
+  font-size:14px; font-family:inherit;
+}
+.pdf-form textarea { resize:vertical; min-height:70px; }
+.pdf-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.pdf-actions button {
+  padding:10px 20px; border:none; border-radius:6px;
+  cursor:pointer; font-size:14px; font-weight:bold;
+  transition: opacity .2s;
+}
+#pdf-preview { background:#333; color:#fff; }
+#pdf-print { background:#4CAF50; color:#fff; }
+#pdf-save { background:#2196F3; color:#fff; }
+.pdf-actions button:hover { opacity:.85; }
+#pdf-status { font-size:13px; color:#666; margin-top:6px; }
+
+/* 翻頁 */
+.nav {
+  display:flex; justify-content:center; align-items:center; gap:16px;
+}
 .nav button {
   padding:10px 28px; font-size:15px; cursor:pointer;
   border:1px solid #ccc; background:#fff; border-radius:6px;
@@ -32,45 +72,23 @@ header p { color:#666; margin-top:6px; font-size:15px; }
 .nav button:disabled { opacity:.35; cursor:not-allowed; }
 #photo-counter { font-size:14px; color:#666; }
 
-/* 下載面板 */
-.download-section {
-  background:#fff; border:1px solid #eee; border-radius:10px;
-  padding:24px; margin-bottom:40px;
+/* 照片 */
+.viewer { text-align:center; margin-bottom:40px; }
+#photo-container img {
+  max-width:100%; max-height:75vh;
+  object-fit:contain; border-radius:8px;
+  background:#f0f0f0;
 }
-.download-section h2 { margin-bottom:14px; }
-
-.captcha-box {
-  background:#fafafa; border:1px solid #ddd; border-radius:8px;
-  padding:16px; margin-bottom:16px;
-  display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+.progress-bar {
+  width:100%; max-width:600px; margin:12px auto 8px;
+  height:6px; background:#eee; border-radius:3px;
+  overflow:hidden; display:none;
 }
-.captcha-box p { margin:0; font-size:14px; }
-.captcha-box input {
-  width:100px; padding:8px 10px; border:1px solid #ccc;
-  border-radius:6px; font-size:14px;
+.progress-fill {
+  height:100%; width:0%; background:#333;
+  transition: width .1s linear;
 }
-.captcha-box button {
-  padding:8px 16px; background:#333; color:#fff;
-  border:none; border-radius:6px; cursor:pointer;
-}
-.captcha-box button:hover { opacity:.85; }
-#captcha-result { font-size:13px; }
-
-.download-control label {
-  display:block; font-size:14px; color:#555; margin-bottom:8px;
-}
-.download-control input[type="number"] {
-  width:120px; padding:8px 10px; border:1px solid #ccc;
-  border-radius:6px; font-size:14px; margin-right:10px;
-}
-.download-control button {
-  padding:10px 24px; background:#333; color:#fff;
-  border:none; border-radius:6px; cursor:pointer; font-weight:bold;
-}
-.download-control button:hover { opacity:.85; }
-
-#offline-list { font-size:13px; color:#999; margin-top:10px; }
-#offline-list div { margin-bottom:4px; }
+.photo-info { color:#666; font-size:13px; }
 
 /* 評論區 */
 .comments-section { margin-bottom:40px; }
