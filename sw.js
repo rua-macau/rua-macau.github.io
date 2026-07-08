@@ -1,11 +1,11 @@
 /* sw.js — Service Worker */
 const CACHE_NAME = 'rua-macau-95';
 const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/assets/css/style.css',
-  '/assets/js/main.js',
-  '/assets/js/sw.js',
+  'rua-macau.github.io/',
+  'rua-macau.github.io/index.html',
+  'rua-macau.github.io/assets/css/style.css',
+  'rua-macau.github.io/assets/js/main.js',
+  'rua-macau.github.io/assets/js/sw.js',
 ];
 
 self.addEventListener('install', e => {
