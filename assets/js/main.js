@@ -11,7 +11,7 @@ let photos = [];
 let currentIndex = 0;
 let cachedPhotos = new Set();
 let proxyUrl = '';              // ✅ 默认空
-let proxyVerified = false;      // ✅ 是否已验证
+let proxyVerified = true;      // ✅ 是否已验证
 
 document.addEventListener('DOMContentLoaded', async () => {
   loadProxyFromStorage();
@@ -29,7 +29,7 @@ function loadProxyFromStorage() {
   const saved = localStorage.getItem('proxy_url');
   if (saved) {
     proxyUrl = saved;
-    proxyVerified = true; // ✅ 重启后视为未验证
+    proxyVerified = false; // ✅ 重启后视为未验证
   }
 }
 
