@@ -1,4 +1,5 @@
 /* ai.js · AI 圖片識別 · photosReady 同步版 */
+import { getCachedPhoto, downloadPhotoBlob } from './main.js';
 
 const ENCRYPT_KEY = 'rua-macau-ai-key-v1';
 
