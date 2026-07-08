@@ -1,5 +1,5 @@
 /* sw.js — 稳定版（不缓存自己） */
-const CACHE_NAME = 'rua-macau-98';
+const CACHE_NAME = 'rua-macau-v98';
 const CORE_ASSETS = [
   '/',
   '/index.html',
