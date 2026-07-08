@@ -101,4 +101,36 @@ footer {
   text-align:center; margin-top:60px; padding-top:20px;
   border-top:1px solid #eee; color:#999; font-size:13px;
 }
+/* AI 圖片識別 */
+.ai-control {
+  background:#fff; border:1px solid #eee; border-radius:10px;
+  padding:20px; margin-bottom:24px;
+}
+.ai-control h3 { margin-bottom:12px; font-size:1.1em; }
+.ai-form { display:flex; flex-direction:column; gap:10px; }
+.ai-row {
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.ai-row label {
+  font-size:14px; color:#555; white-space:nowrap; min-width:80px;
+}
+.ai-row input {
+  flex:1; min-width:200px; padding:8px 12px;
+  border:1px solid #ccc; border-radius:6px; font-size:13px;
+  font-family: 'Courier New', monospace;
+}
+.ai-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
+.ai-actions button {
+  padding:8px 16px; border:none; border-radius:6px;
+  cursor:pointer; font-size:13px; font-weight:bold;
+  transition: opacity .2s;
+}
+#ai-test     { background:#333; color:#fff; }
+#ai-save     { background:#4CAF50; color:#fff; }
+#ai-clear    { background:#f44336; color:#fff; }
+#ai-recognize { background:#2196F3; color:#fff; }
+#ai-recognize:disabled { opacity:.35; cursor:not-allowed; }
+.ai-actions button:hover:not(:disabled) { opacity:.85; }
+#ai-status { font-size:13px; margin-top:6px; }
+#ai-result  { font-size:13px; color:#333; margin-top:8px; white-space:pre-line; }
 
