@@ -5,62 +5,72 @@
   <title>AI 圖片識別 · 澳門街道</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>AI 圖片識別</h1>
-    <p>僅限本地使用 · 配置不會上傳</p>
-  </header>
 
-  <main>
-    <section class="ai-control">
-      <h3>🤖 AI 配置</h3>
-      <div class="ai-form">
-        <div class="ai-row">
-          <label>API 地址：</label>
-          <input type="url" id="ai-url" placeholder="https://openrouter.ai/api/v1" />
-        </div>
-        <div class="ai-row">
-          <label>模型 ID：</label>
-          <input type="text" id="ai-model" placeholder="openrouter/free" />
-        </div>
-        <div class="ai-row">
-          <label>API Key：</label>
-          <input type="password" id="ai-key" placeholder="sk-or-v1-..." />
-        </div>
-        <div class="ai-actions">
-          <button id="ai-save">安全保存</button>
-          <button id="ai-clear">清除</button>
-          <button id="ai-test">測試連通</button>
-        </div>
-        <div id="ai-status" class="status"></div>
+<header>
+  <h1>AI 圖片識別</h1>
+  <p>僅限本地使用 · 配置不會上傳</p>
+</header>
+
+<main>
+  <!-- ===== AI 配置 ===== -->
+  <section class="ai-control">
+    <h3>🤖 AI 配置</h3>
+    <div class="ai-form">
+      <div class="ai-row">
+        <label>API 地址：</label>
+        <input type="url" id="ai-url" placeholder="https://openrouter.ai/api/v1" />
       </div>
-    </section>
-
-    <section class="viewer">
-      <h3>📷 圖片識別</h3>
-      <div>
-        <label>圖片 URL：</label>
-        <input type="url" id="ai-image-url" placeholder="https://cdn.jsdelivr.net/..." style="width:80%" />
+      <div class="ai-row">
+        <label>模型 ID：</label>
+        <input type="text" id="ai-model" placeholder="openrouter/free" />
       </div>
-      <button id="ai-recognize" style="margin-top:10px;">識別圖片</button>
-      <div id="ai-result" class="status" style="white-space:pre-line"></div>
-    </section>
+      <div class="ai-row">
+        <label>API Key：</label>
+        <input type="password" id="ai-key" placeholder="sk-or-v1-..." />
+      </div>
+      <div class="ai-actions">
+        <button id="ai-save">安全保存</button>
+        <button id="ai-clear">清除配置</button>
+        <button id="ai-test">測試連通</button>
+      </div>
+      <div id="ai-status" class="status"></div>
+    </div>
+  </section>
 
-    <section class="chat-section">
-      <h3>💬 聊天測試</h3>
-      <textarea id="chat-input" placeholder="輸入消息..."></textarea>
+  <!-- ===== 圖片選擇 ===== -->
+  <section class="image-select">
+    <h3>📷 圖片選擇</h3>
+    <div class="img-nav">
+      <button id="img-prev">← 上一張</button>
+      <span id="img-index">0 / 0</span>
+      <button id="img-next">下一張 →</button>
+    </div>
+    <div class="img-url-row">
+      <label>圖片 URL：</label>
+      <input type="url" id="ai-image-url" readonly style="width:80%" />
+    </div>
+    <button id="ai-recognize">識別圖片</button>
+    <div id="ai-result" class="status" style="white-space:pre-line"></div>
+  </section>
+
+  <!-- ===== 聊天 ===== -->
+  <section class="chat-section">
+    <h3>💬 聊天測試</h3>
+    <textarea id="chat-input" placeholder="輸入消息..."></textarea>
+    <div class="chat-actions">
       <button id="chat-send">發送</button>
-      <div id="chat-output" class="status" style="white-space:pre-line"></div>
-    </section>
-  </main>
+      <button id="chat-clear">清除話題</button>
+    </div>
+    <div id="chat-output" class="status" style="white-space:pre-line"></div>
+  </section>
+</main>
 
-  <footer>
-    <p><a href="/">← 返回主站</a></p>
-  </footer>
+<footer>
+  <p><a href="/">← 返回主站</a></p>
+</footer>
 
-  <script src="/assets/js/ai.js"></script>
+<script src="/assets/js/ai.js"></script>
 </body>
 </html>
-
