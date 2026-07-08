@@ -7,10 +7,7 @@
   <meta name="description" content="記錄澳門街道的當下與變遷" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
-  <!-- PDF 庫 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <!-- 主邏輯 -->
+  <!-- 移除 jsPDF -->
   <script type="module" src="/assets/js/main.js"></script>
 </head>
 <body>
@@ -31,18 +28,16 @@
         <span id="proxy-status"></span>
       </div>
 
-      <!-- 列印 -->
-      <div class="pdf-control">
-        <h3>🖨️ 列印照片</h3>
-        <div class="pdf-form">
-          <input type="text" id="pdf-title" placeholder="標題（如：澳門南灣湖景大馬路）" />
-          <textarea id="pdf-desc" placeholder="描述（可選，如：拍攝於2026年7月...）"></textarea>
-          <div class="pdf-actions">
-            <button id="pdf-save-pdf">保存 PDF</button>
-            <button id="pdf-save-mht">保存 MHT</button>
-            <button id="pdf-print-page">列印當前頁面</button>
+      <!-- 歸檔 -->
+      <div class="archive-control">
+        <h3>📦 生成 MHT 離線檔案</h3>
+        <div class="archive-form">
+          <input type="text" id="archive-title" placeholder="標題（如：澳門南灣湖景大馬路）" />
+          <textarea id="archive-desc" placeholder="描述（可選，如：拍攝於2026年7月...）"></textarea>
+          <div class="archive-actions">
+            <button id="save-mht">保存 MHT 離線檔案</button>
           </div>
-          <div id="pdf-status" class="status"></div>
+          <div id="archive-status" class="status"></div>
         </div>
       </div>
 
@@ -70,6 +65,7 @@
 
   <footer>
     <p>© rua-macau · 澳門街道照片檔案 · 嚴禁盜用 · 採用「釒文MIT」</p>
+    <p style="font-size:12px;color:#999;margin-top:4px;">本頁面僅生成 MHTML (.mht) 離線檔案，無需列印。</p>
   </footer>
 
   <!-- Service Worker -->
