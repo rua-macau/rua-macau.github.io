@@ -136,54 +136,97 @@ footer {
 /* =========================================================
    MHT 離線檔案排版（生成後的頁面樣式）
    ========================================================= */
+/* =========================================================
+   MHT 離線檔案區塊樣式
+   ========================================================= */
 
-/* 整體 */
-body {
-  font-family: system-ui, -apple-system, "PingFang SC", sans-serif;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  background: #fafafa;
-  color: #333;
-  line-height: 1.8;
-}
-
-/* 標題 */
-h1 {
-  font-size: 2em;
-  margin-bottom: 8px;
-  border-bottom: 2px solid #333;
-  padding-bottom: 8px;
-  letter-spacing: 1px;
-}
-
-/* 描述 */
-p {
-  color: #555;
+/* 整體區塊 */
+.archive-control {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
   margin-bottom: 24px;
-  font-size: 15px;
 }
 
-/* 照片 */
-img {
-  display: block;
-  max-width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+.archive-control h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  color: #333;
 }
 
-/* 底部分隔線 */
-hr {
+/* 表單 */
+.archive-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.archive-form input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+.archive-form input[type="text"]:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.15);
+}
+
+.archive-form textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: system-ui, sans-serif;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.archive-form textarea:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.15);
+}
+
+/* 按鈕列 */
+.archive-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.archive-actions button {
+  padding: 10px 24px;
+  background: #333;
+  color: #fff;
   border: none;
-  border-top: 1px solid #ddd;
-  margin: 40px 0 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: opacity 0.2s;
 }
 
-/* 頁尾 */
-footer p,
-p:last-child {
-  color: #999;
-  font-size: 12px;
-  text-align: center;
+.archive-actions button:hover {
+  opacity: 0.85;
 }
 
+/* 狀態文字 */
+#archive-status {
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+#archive-status:empty {
+  display: none;
+}
